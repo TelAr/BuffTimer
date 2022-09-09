@@ -1,7 +1,13 @@
+import time
+import asyncio
+import discord
+import buffManager
+from discord.ext import commands
 
 buff_info_dic = {}
 buff_object_dic = {}
 buff_option_dic = {}
+buff_timer_dic = {}
 
 class option:
     delay_time = 5
@@ -102,6 +108,27 @@ def option_setting(server_ID, user_ID, index, value):
     else:
         return -1
 
+async def run_coroutine(ctx):
+    server_ID = ctx.guild.id
+    user_ID = str(ctx.author)
+    ID_pair = (server_ID, user_ID)
 
+    print(user_ID+": run corutine")
+    global_timer=60*60*4;
+
+    buff_timer_dic[ID_pair]=global_timer
+
+    while(buff_timer_dic[ID_pair]>0):
+        print(buff_timer_dic[ID_pair])
+        await asyncio.sleep(1)
+        buff_timer_dic[ID_pair] -= 1
 
     return 0
+
+def stop(ctx):
+    server_ID = ctx.guild.id
+    user_ID = str(ctx.author)
+    ID_pair = (server_ID, user_ID)
+
+    if ID_pair in buff_timer_dic and buff_timer_dic[ID_pair]>0:
+        buff_timer_dic[ID_pair]=0;

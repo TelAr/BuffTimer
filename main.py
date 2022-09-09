@@ -125,6 +125,19 @@ async def option_setting(ctx, index, value):
         await ctx.send("잘못된 명령 입력이에요...")
     else:
         await ctx.send("옵션 설정이 완료되었어요!")
+
+@bot.command(aliases=['실행'])
+async def run(ctx):
+    await ctx.send("실행 시작이에요!")
+    await buffManager.run_coroutine(ctx)
+    await ctx.send("실행 완료에요!")
+
+@bot.command(aliases=['중단'])
+async def stop(ctx):
+
+    buffManager.stop(ctx)
+    await ctx.send("중단했어요!")
+
 @bot.command(aliases=['도움', '도움말'])
 async def help(ctx):
     embed = discord.Embed(title="명령어", description="이 봇이 사용 가능한 명령어들에요.", colour=0xFFFFFF)
@@ -153,5 +166,3 @@ async def help(ctx):
 f=open("token", 'r')
 tokenInfo = f.readline()
 bot.run(tokenInfo)
-
-
