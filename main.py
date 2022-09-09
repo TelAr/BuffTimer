@@ -46,7 +46,7 @@ async def insert(ctx, buff_name ="", buff_time = "", loop_count = "-1"):
     loop_count_print = loop_to_print(loop_count)
 
     embed = discord.Embed(title="버프 입력", description="신규 입력 사항이에요!.", colour=0xFFFFFF)
-    embed.add_field(name="{}의 현재 입력 사항".format(ctx.author), value=str(buff_name) + ": " + str(buff_time_print) + "되며 " + str(loop_count_print) + " 반복해요!", inline=False)
+    embed.add_field(name="{}의 현재 입력 사항".format(ctx.author), value=str(buff_name) + ": " + str(buff_time_print) + "되며 " + str(loop_count_print) + " 실행해요!", inline=False)
 
     print_list = ""
 
@@ -57,7 +57,7 @@ async def insert(ctx, buff_name ="", buff_time = "", loop_count = "-1"):
         buff_time_print = time_to_print(value.buff_time)
         loop_count_print = loop_to_print(value.loop_count)
 
-        print_list = print_list + str(value.buff_name) + ": " + str(buff_time_print) + "되며 " + str(loop_count_print) + " 반복해요!\n"
+        print_list = print_list + str(value.buff_name) + ": " + str(buff_time_print) + "되며 " + str(loop_count_print) + " 실행해요!\n"
 
     embed.add_field(name="{}의 누적 입력 사항".format(ctx.author), value=print_list, inline=False)
     await ctx.send(embed=embed)
@@ -77,7 +77,7 @@ async def state(ctx):
             loop_count_print = loop_to_print(value.loop_count)
 
             print_list = print_list + str(value.buff_name) + ": " + str(buff_time_print) + "되며 " + str(
-                loop_count_print) + " 반복해요!\n"
+                loop_count_print) + " 실행해요!\n"
 
         embed.add_field(name="{}의 누적 입력 사항".format(ctx.author), value=print_list, inline=False)
         await ctx.send(embed=embed)
@@ -115,7 +115,7 @@ async def option(ctx):
     delay_time = option_info.delay_time
 
     embed = discord.Embed(title="옵션", description=str(ctx.author.mention)+"의 옵션 상태에요", colour=0xFFFFFF)
-    embed.add_field(name="1. 사전 멘션 시간", value=str(delay_time)+"초", inline=False)
+    embed.add_field(name="1. 사전 멘션 시간", value=str(delay_time)+"초\n주의사항: 버프 시간보다 사전 멘션 시간이 짧으면 멘션을 보낼 수 없어요....", inline=False)
     embed.set_footer(text="옵선 설정을 하고 싶을 경우 \'옵션설정\' 명령을 사용해보세요")
     await  ctx.send(embed=embed)
 
@@ -132,7 +132,7 @@ async def run(ctx):
     await buffManager.run_coroutine(ctx)
     await ctx.send("실행 완료에요!")
 
-@bot.command(aliases=['중단'])
+@bot.command(aliases=['중단', '중지'])
 async def stop(ctx):
 
     buffManager.stop(ctx)
@@ -144,12 +144,12 @@ async def help(ctx):
     embed.add_field(name="!hello,\t!테스트,\t!안녕", value="안녕! 봇 작동 상태 확인 명령이에요.\n아무 응답도 없으면 죽은거같아요....", inline=False)
     embed.add_field(name="!help,\t!도움,\t!도움말", value="바로 이 페이지를 여는 명령이에요.\n이 문구를 보고 계신다면 사실 이미 아시는거죠!", inline=False)
     insert_info = "버프 내용을 입력하는 명령이에요.\n"
-    insert_info = insert_info + "명령어 뒤에 버프 이름, 지속 시간, 희망하는 반복 횟수를 입력하면 되요.\n"
-    insert_info = insert_info + "예를 들어 \"!insert 공격력증가 10 2\"라고 하면\n10초간 지속되는 공격력증가 버프를 2회 반복하겠다는 뜻이에요.\n"
+    insert_info = insert_info + "명령어 뒤에 버프 이름, 지속 시간, 희망하는 실행 횟수를 입력하면 되요.\n"
+    insert_info = insert_info + "예를 들어 \"!insert 공격력증가 10 2\"라고 하면\n10초간 지속되는 공격력증가 버프를 2회 실행하겠다는 뜻이에요.\n"
     insert_info = insert_info + "특정 버프를 수정하실때도 동일하게 입력하시면 되요.\n"
     insert_info = insert_info + "버프 이름과 버프 지속 시간은 반드시 입력해주셔야 해요.\n"
     insert_info = insert_info + "버프 지속 시간은 반드시 양의 정수여야 해요.\n"
-    insert_info = insert_info + "반복횟수를 미입력하거나 음수로 입력 시 무한반복이 되요."
+    insert_info = insert_info + "실행횟수를 미입력하거나 음수로 입력 시 무한반복이 되요."
     embed.add_field(name="!insert,\t!입력\t(+ 버프 이름, 지속 시간(초), 반복 횟수)", value=insert_info, inline=False)
     erase_info = "입력된 버프를 삭제하는 명령이에요.\n"
     erase_info = erase_info + "명령어 뒤에 삭제하고 싶은 버프 이름을 입력하면 되요."
